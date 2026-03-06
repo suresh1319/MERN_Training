@@ -5,7 +5,7 @@ app.set('view engine', 'ejs')
 app.set('views','views')
 
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret:"secret",
     resave:false,
@@ -22,8 +22,7 @@ function isAuthenticated(req,res,next){
 
 }
 
-// Middleware to parse form data
-app.use(express.urlencoded({ extended: true }));
+
 
 const users = [
     {name:"suresh",email:"suresh@gmail.com",password:"123456"},
@@ -32,35 +31,44 @@ const users = [
 ]
 
 app.get("/",isAuthenticated,(req,res)=>{
-    res.render('dashboard',{users});
+    res.render('dashboard',{user:req.session.user});
 })
 
+app.get('/users',(req,res)=>{
+    res.render('users',{users});
+})
 app.get('/logout',(req,res)=>{
     req.session.destroy();
     res.redirect('/login');
 })
 
 app.get("/login",(req,res)=>{
-    res.render('login')
+    res.render('login',{error:""})
 })
 
 app.get("/register",(req,res)=>{
-    res.render('register');
+    res.render('register',{error:""});
 })
 
 app.post("/register",(req,res)=>{
     const {name,email,password} = req.body;
-    users.push({name:name,email:email,password:password});
+    const exists = users.find(u=>u.email==email);
+    if(exists){
+        return res.render('register',{error:'user already existed'});
+    }
+    const user = {name:name,email:email,password:password}
+    users.push(user);
+    req.session.user = user
     res.redirect('/') 
 })
 app.post("/login",(req,res)=>{
     const {email,password} = req.body;
     const user = users.find(u=>u.email === email)
     if(!user){
-        res.render('error',{error:"User not found"});
+       return res.render('login',{error:"User not found"});
     }
     if(user.password !== password){
-        res.render('error',{error:"Incorrect Password"});
+        return res.render('login',{error:"Incorrect Password"});
     }
     req.session.user = user;
     res.redirect('/')
