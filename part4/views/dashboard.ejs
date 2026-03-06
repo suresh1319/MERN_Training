@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <H1>Hello This is your Dashboard</H1>
+    <br><br>
+    <p>Already a User ?<a href="/login">Login</a></p>
+    <p>New User ?<a href="/register">Register</a></p>
+    <ul>
+        <% users.forEach((user)=>{ %>
+            <li><%= user.name %>--<%= user.email %>--<%= user.password %></li>
+        <%})%>
+    </ul>
+    <p><a href='/logout'>Logout</a></p>
+</body>
+</html>
