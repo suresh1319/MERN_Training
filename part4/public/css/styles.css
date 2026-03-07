@@ -1,0 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.header{
+    background-color: orange;
+    color:aqua;
+    padding:10px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+#footer{
+    background-color:orange;
+    height: max-content;
+    padding:20px;
+    text-align: center;
+}
+
+#main-content{
+    background-color: lightgray;
+    height: 100%;
+    width:100%;
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+#main-content h1{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-out{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

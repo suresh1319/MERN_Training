@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
 const session = require('express-session');
+const expressLayouts = require('express-ejs-layouts');
+
 app.set('view engine', 'ejs')
 app.set('views','views')
 
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
@@ -11,6 +14,8 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }))
+app.use(expressLayouts);
+app.set('layout', 'layout');
 
 function isAuthenticated(req,res,next){
     if(req.session.user){
@@ -19,10 +24,7 @@ function isAuthenticated(req,res,next){
     else{
         res.redirect('/login');
     }
-
 }
-
-
 
 const users = [
     {name:"suresh",email:"suresh@gmail.com",password:"123456"},
@@ -73,7 +75,6 @@ app.post("/login",(req,res)=>{
     req.session.user = user;
     res.redirect('/')
 })
-
 
 app.listen(8000,()=>{
     console.log('The server is running on 8000')
