@@ -1,18 +1,12 @@
-const productModel = [
-    {   id:1 ,
-        name:'product 1',
-        price:2000,
-    },
-    {
-        id:2 ,
-        name:'product 2',
-        price:3000,
-    },
-    {
-        id:3 ,
-        name:'product 3',
-        price:1500,
-    }
-]
+import mongoose from "mongoose";
+
+const productSchema = mongoose.Schema({
+    name:{type:String, required:true},
+    description:{type:String, required:true},
+    price:{type:Number,required:true},
+    image:{type:String, required:true}
+})
+
+const productModel = mongoose.model('products',productSchema);
 
 export default productModel;
