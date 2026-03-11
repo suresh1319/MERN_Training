@@ -10,7 +10,8 @@ function Content() {
     try {
       const URL = `${API_URL}/store`
       const response = await fetch(URL);
-      setProducts(response.json());
+      const data = await response.json();
+      setProducts(data);
     } catch (error) {
       console.log(error);
     }
