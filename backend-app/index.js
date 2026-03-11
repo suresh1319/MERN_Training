@@ -4,9 +4,11 @@ import expressLayouts from "express-ejs-layouts";
 import session from "express-session";
 import mongoose from "mongoose";
 import dotenv from "dotenv";  
-// import {productRouter} from "./routes/productRoute.js";
+import productRouter from "./routes/productRoute.js";
 import { storeRouter } from "./routes/storeRoute.js";
 import dbConnect from "./config/db.js";
+import { userRouter } from "./routes/userRoute.js";
+import cors from 'cors'
 
 
 dotenv.config();
@@ -16,6 +18,14 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(cors())
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
 
 app.use(
   session({
@@ -27,8 +37,8 @@ app.use(
 
 app.use("/", storeRouter);
 // app.use("/auth", authRouter);
-// app.use("/product" productRouter)
-// app.use("/users", userRouter);
+app.use("/products" ,productRouter)
+app.use("/users", userRouter);
 
 const startServer = async () => {
   await dbConnect().then(
