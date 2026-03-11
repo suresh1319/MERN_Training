@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import "./Content.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -10,9 +9,8 @@ function Content() {
   async function fetchProducts() {
     try {
       const URL = `${API_URL}/store`
-      const response = await axios.get(URL);
-      console.log(response);
-      setProducts(response.data);
+      const response = await fetch(URL);
+      setProducts(response.json());
     } catch (error) {
       console.log(error);
     }
