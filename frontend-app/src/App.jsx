@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState,createContext} from 'react'
+import {BrowserRouter} from 'react-router-dom';
 import Header from './components/Header'
 import Content from './components/Content'
 import './App.css'
@@ -8,17 +9,16 @@ import Register from './components/Register'
 import Orders from './components/Orders'
 import Logout from './components/Logout'
 import Cart from './components/Cart'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom' 
+export const AppContext = createContext()
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  function incremnt(){
-    setCount(count + 1)
-  }
+  const [user, setUser] = useState({})
 
   return (
     <>
+    <AppContext.Provider value={{user,setUser}}>
+    <BrowserRouter>
       <Header/>
 
       <Routes>
@@ -31,6 +31,8 @@ function App() {
       </Routes>
 
       <Footer/>
+      </BrowserRouter>
+      </AppContext.Provider>
     </>
   )
 }

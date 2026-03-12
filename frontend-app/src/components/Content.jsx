@@ -29,7 +29,6 @@ function Content() {
           <p>{product.name}</p>
           <p>{product.desc}</p>
           <p>₹{product.price}</p>
-          <p>Rating: {product.rating}</p>
           <button>Add to Cart</button>
         </div>
       ))}
