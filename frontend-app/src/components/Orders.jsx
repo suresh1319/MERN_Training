@@ -1,52 +1,58 @@
-import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
+import axios from "axios";
 import "./Order.css";
-
 function Orders() {
   const API_URL = import.meta.env.VITE_API_URL;
-  const [orders, setOrders] = useState([]);
   const { user } = useContext(AppContext);
+  const [orders, setOrders] = useState([]);
 
-  async function fetchOrder() {
+  const fetchOrders = async () => {
     try {
-      const response = await axios.get(API_URL + "/orders");
-      const allOrders = response.data;
-
-      const userOrders = allOrders.filter(
-        (order) => order.email === user?.email
+      const url = `${API_URL}/orders/`;
+      const response = await axios.get(url,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
-
-      setOrders(userOrders);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
+      if(response.data.error){
+        alert(response.data.error);
+        return
+      }
+      setOrders(response.data);
+    } catch (err) {
+      console.log("Something went wrong");
     }
-  }
+  };
 
   useEffect(() => {
-    if (user) {
-      fetchOrder();
-    }
-  }, [user]);
+    fetchOrders();
+  }, []);
 
   return (
     <div>
       <h1>My Orders</h1>
-
-      <ul>
-        {orders.map((order, index) => (
-          <li id="order" key={index}>
-            {order.items.map((item, i) => (
-              <span key={i}>
-                {item.name} - {item.price} - {item.quantity}
-                <br />
-              </span>
-            ))}
-          </li>
-        ))}
-      </ul>
+      <div>
+        {orders &&
+          orders.map((order) => (
+            <div key={order._id}>
+              <h3>Order Id: {order._id}</h3>
+              <ol>
+                {order.items.map((item) => (
+                  <li key={item._id} id="order">
+                    {item.name}-{item.price}-{item.quantity}-
+                    {item.price * item.quantity}
+                  </li>
+                ))}
+              </ol>
+              <h3>Order Value: {order.value}</h3>
+              <hr />
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
-
 export default Orders;

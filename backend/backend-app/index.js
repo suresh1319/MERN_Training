@@ -3,7 +3,7 @@ import expressLayouts from "express-ejs-layouts";
 import session from "express-session";
 import cors from "cors";
 import dotenv from "dotenv";
-import { authenticateAdmin } from "./middleware/auth.js";
+import { authenticateAdmin,authenticateUser } from "./middleware/auth.js";
 import mongoose from "mongoose";
 import dbConnect from "./config/db.js";
 import productRouter from "./routes/productRoute.js";
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 
 app.use("/auth", authRouter);
 app.use("/store", storeRouter);
-app.use("/orders",orderRouter)
+app.use("/orders",authenticateUser,orderRouter)
 app.use("/", authenticateAdmin,homeRouter);
 app.use("/products", authenticateAdmin,productRouter);
 app.use("/users", authenticateAdmin, userRouter);

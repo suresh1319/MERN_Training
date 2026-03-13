@@ -48,8 +48,12 @@ function Cart() {
         items:cart,
     }
     console.log(orderDetails)
-    const url = API_URL+"/orders/create";
-    const response = await axios.post(url,orderDetails);
+    const url = API_URL + "/orders/create";
+    const response = await axios.post(url, orderDetails, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
     setCart([]);
   };
 
