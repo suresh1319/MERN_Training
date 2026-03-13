@@ -14,13 +14,13 @@ export const AppContext = createContext()
 
 function App() {
   const [user, setUser] = useState({})
+  const [cart, setCart] = useState([])
 
   return (
     <>
-    <AppContext.Provider value={{user,setUser}}>
+    <AppContext.Provider value={{user,setUser,cart,setCart}}>
     <BrowserRouter>
       <Header/>
-
       <Routes>
         <Route path='/' element={<Content/>}/>
         <Route path='/login' element={<Login/>}/>
@@ -29,7 +29,6 @@ function App() {
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/logout' element={<Logout/>}/>
       </Routes>
-
       <Footer/>
       </BrowserRouter>
       </AppContext.Provider>
