@@ -13,7 +13,6 @@ function Login() {
     const url = API_URL + "/auth/signin";
     const response = await axios.post(url, user);
     const data =  response.data;  
-    console.log(data);
       if(data.error) {
         alert(data.error);
       } else {
