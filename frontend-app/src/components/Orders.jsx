@@ -21,7 +21,8 @@ function Orders() {
         alert(response.data.error);
         return
       }
-      setOrders(response.data);
+      const userOrders = response.data.filter((order)=>order.email===user.email);
+      setOrders(userOrders);
     } catch (err) {
       console.log("Something went wrong");
     }
